@@ -1,0 +1,15 @@
+input {
+  background: none;
+  outline: none;
+  border: none;
+}
+html,
+body {
+  height: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+* {
+  box-sizing: border-box;
+}
