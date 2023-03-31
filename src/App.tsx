@@ -1,11 +1,20 @@
 import React, { useRef } from "react";
 import { useTodo } from "./context/useTodo";
-import { TodoItem } from "./components/TodoItems";
+import { TodoItem } from "./components/TodoItem";
 function App() {
   const todoRef = useRef<HTMLInputElement>(null);
   const [{ todos }, dispatch] = useTodo();
   const hanldeAddTodo = () => {
-    console.log(todoRef.current?.value);
+    if (todoRef.current?.value) {
+      dispatch({
+        type: "ADD_TODO",
+        payload: {
+          text: todoRef.current?.value as string,
+          id: Date.now(),
+          done: false,
+        },
+      });
+    }
   };
   return (
     <div className="flex flex-col items-center pt-12 min-h-screen bg-gray-50">
