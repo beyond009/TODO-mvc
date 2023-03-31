@@ -61,7 +61,7 @@ function App() {
           <input
             type="checkbox"
             className="checkbox"
-            checked={isCompletedAll}
+            checked={isCompletedAll && todos.length > 0}
             onChange={() => {
               handleToggleAll();
             }}
