@@ -9,6 +9,7 @@ interface Props {
 }
 export const TodoItem = ({ todo }: Props) => {
   const { text, id, done } = todo;
+  const inputRef = useRef<HTMLInputElement>(null);
   const [_, dispatch] = useTodo();
   const [edit, setEdit] = useState<boolean>(false);
 
@@ -27,13 +28,17 @@ export const TodoItem = ({ todo }: Props) => {
   };
 
   const handleEdit = () => {
-    dispatch({
-      type: "EDIT_TODO",
-      payload: {
-        id,
-        text: "edited",
-      },
-    });
+    const text = inputRef.current?.value;
+    if (text) {
+      dispatch({
+        type: "EDIT_TODO",
+        payload: {
+          id,
+          text: text,
+        },
+      });
+      setEdit(false);
+    }
   };
 
   return (
@@ -62,9 +67,13 @@ export const TodoItem = ({ todo }: Props) => {
           }}
         >
           <input
+            ref={inputRef}
             type="text"
             placeholder="change todo text"
             className="input input-bordered w-full mr-6"
+            onKeyDown={(e) => {
+              e.key === "Enter" && handleEdit();
+            }}
           />
         </ClickAwayListener>
       )}
