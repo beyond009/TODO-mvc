@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useTodo } from "../context/useTodo";
 import { Todo } from "../context/reducer";
 import { XMarkIcon } from "@heroicons/react/20/solid";
+import ClickAwayListener from "react-click-away-listener";
 
 interface Props {
   todo: Todo;
@@ -9,6 +10,7 @@ interface Props {
 export const TodoItem = ({ todo }: Props) => {
   const { text, id, done } = todo;
   const [_, dispatch] = useTodo();
+  const [edit, setEdit] = useState<boolean>(false);
 
   const handleDelete = () => {
     dispatch({
@@ -24,6 +26,16 @@ export const TodoItem = ({ todo }: Props) => {
     });
   };
 
+  const handleEdit = () => {
+    dispatch({
+      type: "EDIT_TODO",
+      payload: {
+        id,
+        text: "edited",
+      },
+    });
+  };
+
   return (
     <li className="flex h-12 items-center px-6 border-b-2 border-gray-100 gap-6 relative">
       <input
@@ -34,7 +46,28 @@ export const TodoItem = ({ todo }: Props) => {
           handleToggleTodo();
         }}
       />
-      <span className="text-lg">{text}</span>
+      {!edit ? (
+        <span
+          className="text-lg text-stone-950 font-mono cursor-pointer w-full"
+          onDoubleClick={() => {
+            setEdit(true);
+          }}
+        >
+          {text}
+        </span>
+      ) : (
+        <ClickAwayListener
+          onClickAway={() => {
+            setEdit(false);
+          }}
+        >
+          <input
+            type="text"
+            placeholder="change todo text"
+            className="input input-bordered w-[380px]"
+          />
+        </ClickAwayListener>
+      )}
       <XMarkIcon
         className="absolute right-3 w-8 h-8 cursor-pointer"
         onClick={() => {
