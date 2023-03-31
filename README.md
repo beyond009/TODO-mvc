@@ -1,6 +1,6 @@
 # TODO MVC
 
-This is a simple TODO MVC application built using React, React Context, React Reducer, tailwindcss, and daisyUI.
+This is a simple TODO MVC application built using React, [React Context](https://reactjs.org/docs/context.html), [React Reducer](https://reactjs.org/docs/hooks-reference.html#usereducer), [tailwindcss](https://tailwindcss.com/), and [daisyUI](https://daisyui.com/).
 
 ## Tech Stack
 
