@@ -37,8 +37,12 @@ function App() {
     }
   }, [filter, todos]);
 
-  const isCompletedAll = useMemo(() => {
-    return todos.every((todo) => todo.done);
+  const [isCompletedAll, itemsLeft]: [boolean, number] = useMemo(() => {
+    let itemsLeft = 0;
+    todos.forEach((todo) => {
+      itemsLeft += todo.done ? 0 : 1;
+    });
+    return [itemsLeft ? false : true, itemsLeft];
   }, [todos]);
   const handleToggleAll = () => {
     dispatch({
@@ -72,6 +76,7 @@ function App() {
           return <TodoItem key={todo.id} todo={todo} />;
         })}
         <li className="relative flex items-center justify-center h-12">
+          <div className="absolute text-sm left-4">{itemsLeft} items left</div>
           <div className="tabs">
             <a
               className={`tab ${filter === "all" ? "tab-active" : ""}`}
