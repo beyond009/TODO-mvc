@@ -2,6 +2,8 @@
 
 This is a simple TODO MVC application built using React, [React Context](https://reactjs.org/docs/context.html), [React Reducer](https://reactjs.org/docs/hooks-reference.html#usereducer), [tailwindcss](https://tailwindcss.com/), and [daisyUI](https://daisyui.com/).
 
+[Live demo](https://beyond009.github.io/TODO-mvc/)
+
 ## Tech Stack
 
 - React: A JavaScript library for building user interfaces.

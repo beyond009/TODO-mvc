@@ -54,8 +54,8 @@ export const TodoItem = ({ todo }: Props) => {
       />
       {!edit ? (
         <span
-          className={`text-lg text-stone-950 font-mono cursor-pointer w-full select-none overflow-auto mr-6 ${
-            done ? "line-through text-gray-400" : ""
+          className={`text-lg font-mono cursor-pointer w-full select-none overflow-auto mr-6 ${
+            done ? "line-through text-gray-400" : "text-stone-950"
           }`}
           onDoubleClick={() => {
             setEdit(true);
