@@ -1,12 +1,14 @@
 {
   "name": "todo-mvc",
+  "homepage": "https://beyond009.github.io/TODO-mvc",
   "private": true,
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build-gh": "tsc && vite build --base=/TODO-mvc/",
     "preview": "vite preview",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "npm run build-gh && gh-pages -d dist"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.17",
