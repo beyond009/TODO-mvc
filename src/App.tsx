@@ -55,7 +55,7 @@ function App() {
         onKeyDown={(e) => {
           e.key === "Enter" && hanldeAddTodo();
         }}
-      />{" "}
+      />
       <ul className="overflow-x-auto w-full max-w-[520px] mt-12 rounded-md bg-white">
         <li className="flex h-12 items-center px-6 border-b-2 border-gray-100">
           <input
