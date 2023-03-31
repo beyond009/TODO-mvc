@@ -3,6 +3,7 @@ import { useTodo } from "../context/useTodo";
 import { Todo } from "../context/reducer";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import ClickAwayListener from "react-click-away-listener";
+import "./TodoItem.css";
 
 interface Props {
   todo: Todo;
@@ -42,7 +43,7 @@ export const TodoItem = ({ todo }: Props) => {
   };
 
   return (
-    <li className="flex h-12 items-center px-6 border-b-2 border-gray-100 gap-6 relative">
+    <li className="todo-item flex h-12 items-center px-6 border-b-2 border-gray-100 gap-6 relative">
       <input
         type="checkbox"
         className="checkbox"
@@ -78,7 +79,7 @@ export const TodoItem = ({ todo }: Props) => {
         </ClickAwayListener>
       )}
       <XMarkIcon
-        className="absolute right-3 w-8 h-8 cursor-pointer"
+        className="delete-icon absolute right-3 w-8 h-8 cursor-pointer"
         onClick={() => {
           handleDelete();
         }}

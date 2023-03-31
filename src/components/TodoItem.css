@@ -1,0 +1,6 @@
+.delete-icon {
+  display: none;
+}
+.todo-item:hover .delete-icon {
+  display: block;
+}
