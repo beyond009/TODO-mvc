@@ -16,9 +16,24 @@ export const TodoItem = ({ todo }: Props) => {
       payload: id,
     });
   };
+
+  const handleToggleTodo = () => {
+    dispatch({
+      type: "TOGGLE_TODO",
+      payload: id,
+    });
+  };
+
   return (
     <li className="flex h-12 items-center px-6 border-b-2 border-gray-100 gap-6 relative">
-      <input type="checkbox" className="checkbox" />
+      <input
+        type="checkbox"
+        className="checkbox"
+        checked={done}
+        onChange={() => {
+          handleToggleTodo();
+        }}
+      />
       <span className="text-lg">{text}</span>
       <XMarkIcon
         className="absolute right-3 w-8 h-8 cursor-pointer"
