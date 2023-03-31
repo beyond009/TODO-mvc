@@ -16,6 +16,7 @@ function App() {
           done: false,
         },
       });
+      todoRef.current.value = "";
     }
   };
 
