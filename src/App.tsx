@@ -1,6 +1,7 @@
 import React, { useRef, useState, useMemo } from "react";
 import { useTodo } from "./context/useTodo";
 import { TodoItem } from "./components/TodoItem";
+import { Todo } from "./context/reducer";
 function App() {
   const todoRef = useRef<HTMLInputElement>(null);
   const [{ todos }, dispatch] = useTodo();
@@ -24,7 +25,7 @@ function App() {
     });
   };
 
-  const filteredTodos = useMemo(() => {
+  const filteredTodos: Todo[] = useMemo(() => {
     switch (filter) {
       case "all":
         return todos;
@@ -34,6 +35,15 @@ function App() {
         return todos.filter((todo) => todo.done);
     }
   }, [filter, todos]);
+
+  const isCompletedAll = useMemo(() => {
+    return todos.every((todo) => todo.done);
+  }, [todos]);
+  const handleToggleAll = () => {
+    dispatch({
+      type: "TOGGLE_ALL",
+    });
+  };
   return (
     <div className="flex flex-col items-center pt-12 min-h-screen bg-gray-50">
       <div className="text-5xl text-stone-950 font-mono">TODO</div>
@@ -48,7 +58,14 @@ function App() {
       />{" "}
       <ul className="overflow-x-auto w-full max-w-[520px] mt-12 rounded-md bg-white">
         <li className="flex h-12 items-center px-6 border-b-2 border-gray-100">
-          <input type="checkbox" className="checkbox" />
+          <input
+            type="checkbox"
+            className="checkbox"
+            checked={isCompletedAll}
+            onChange={() => {
+              handleToggleAll();
+            }}
+          />
         </li>
         {filteredTodos.map((todo) => {
           return <TodoItem key={todo.id} todo={todo} />;

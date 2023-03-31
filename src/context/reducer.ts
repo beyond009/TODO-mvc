@@ -11,8 +11,9 @@ export type Action =
   | { type: "TOGGLE_TODO"; payload: number }
   | { type: "DELETE_TODO"; payload: number }
   | { type: "EDIT_TODO"; payload: { id: number; text: string } }
-  | { type: "COMPLETE_ALL" }
+  | { type: "TOGGLE_ALL" }
   | { type: "CLEAR_COMPLETED" };
+
 export const reducer = (state: TodoState, action: Action) => {
   const { todos } = state;
   switch (action.type) {
@@ -38,8 +39,9 @@ export const reducer = (state: TodoState, action: Action) => {
         todos: todos.map((todo) => (todo.id === id ? { ...todo, text } : todo)),
       };
     }
-    case "COMPLETE_ALL": {
-      return { todos: todos.map((todo) => ({ ...todo, done: true })) };
+    case "TOGGLE_ALL": {
+      const allCompleted = todos.every((todo) => todo.done);
+      return { todos: todos.map((todo) => ({ ...todo, done: !allCompleted })) };
     }
     case "CLEAR_COMPLETED": {
       return { todos: todos.filter((todo) => !todo.done) };
