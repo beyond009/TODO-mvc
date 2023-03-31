@@ -91,7 +91,7 @@ function App() {
               Completed
             </a>
           </div>
-          {filter === "completed" && (
+          {filter === "completed" && filteredTodos.length ? (
             <button
               className="absolute right-2 text-sm"
               onClick={() => {
@@ -100,7 +100,7 @@ function App() {
             >
               clear completed
             </button>
-          )}
+          ) : null}
         </li>
       </ul>
     </div>
