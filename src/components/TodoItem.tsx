@@ -48,7 +48,7 @@ export const TodoItem = ({ todo }: Props) => {
       />
       {!edit ? (
         <span
-          className="text-lg text-stone-950 font-mono cursor-pointer w-full"
+          className="text-lg text-stone-950 font-mono cursor-pointer w-full select-none overflow-auto mr-6"
           onDoubleClick={() => {
             setEdit(true);
           }}
@@ -64,7 +64,7 @@ export const TodoItem = ({ todo }: Props) => {
           <input
             type="text"
             placeholder="change todo text"
-            className="input input-bordered w-[380px]"
+            className="input input-bordered w-full mr-6"
           />
         </ClickAwayListener>
       )}
