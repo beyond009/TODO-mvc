@@ -1,0 +1,134 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>App.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">src/App.tsx</td><td class="">100.00%</td><td class="">80%</td><td class="">149</td><td class="">149</td><td class="">0</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useRef, useState, useMemo } from &quot;react&quot;;
+import { useTodo } from &quot;./context/useTodo&quot;;
+import { TodoItem } from &quot;./components/TodoItem&quot;;
+import { Todo } from &quot;./context/reducer&quot;;
+function App() {
+  const todoRef = useRef&lt;HTMLInputElement&gt;(null);
+  const [{ todos }, dispatch] = useTodo();
+  const [filter, setFilter] = useState&lt;&quot;all&quot; | &quot;active&quot; | &quot;completed&quot;&gt;(&quot;all&quot;);
+  const hanldeAddTodo = () =&gt; {
+    if (todoRef.current?.value) {
+      dispatch({
+        type: &quot;ADD_TODO&quot;,
+        payload: {
+          text: todoRef.current?.value as string,
+          id: Date.now(),
+          done: false,
+        },
+      });
+      todoRef.current.value = &quot;&quot;;
+    }
+  };
+
+  const handleClearCompleted = () =&gt; {
+    dispatch({
+      type: &quot;CLEAR_COMPLETED&quot;,
+    });
+  };
+
+  const filteredTodos: Todo[] = useMemo(() =&gt; {
+    switch (filter) {
+      case &quot;all&quot;:
+        return todos;
+      case &quot;active&quot;:
+        return todos.filter((todo) =&gt; !todo.done);
+      case &quot;completed&quot;:
+        return todos.filter((todo) =&gt; todo.done);
+    }
+  }, [filter, todos]);
+
+  const [isCompletedAll, itemsLeft]: [boolean, number] = useMemo(() =&gt; {
+    let itemsLeft = 0;
+    todos.forEach((todo) =&gt; {
+      itemsLeft += todo.done ? 0 : 1;
+    });
+    return [itemsLeft ? false : true, itemsLeft];
+  }, [todos]);
+  const handleToggleAll = () =&gt; {
+    dispatch({
+      type: &quot;TOGGLE_ALL&quot;,
+    });
+  };
+  return (
+    &lt;div className=&quot;flex flex-col items-center pt-12 min-h-screen bg-gray-50&quot;&gt;
+      &lt;div className=&quot;text-5xl text-stone-950 font-mono&quot;&gt;TODO&lt;/div&gt;
+      &lt;input
+        ref={todoRef}
+        type=&quot;text&quot;
+        placeholder=&quot;What needs to be done?&quot;
+        className=&quot;input input-bordered w-full max-w-[520px] mt-12&quot;
+        onKeyDown={(e) =&gt; {
+          e.key === &quot;Enter&quot; &amp;&amp; hanldeAddTodo();
+        }}
+      /&gt;
+      &lt;ul className=&quot;overflow-x-auto w-full max-w-[520px] mt-12 rounded-md bg-white&quot;&gt;
+        &lt;li className=&quot;flex h-12 items-center px-6 border-b-2 border-gray-100&quot;&gt;
+          &lt;input
+            type=&quot;checkbox&quot;
+            className=&quot;checkbox&quot;
+            checked={isCompletedAll &amp;&amp; todos.length &gt; 0}
+            onChange={() =&gt; {
+              handleToggleAll();
+            }}
+          /&gt;
+        &lt;/li&gt;
+        {filteredTodos.map((todo) =&gt; {
+          return &lt;TodoItem key={todo.id} todo={todo} /&gt;;
+        })}
+        &lt;li className=&quot;relative flex items-center justify-center h-12&quot;&gt;
+          &lt;div className=&quot;absolute text-sm left-4&quot;&gt;{itemsLeft} items left&lt;/div&gt;
+          &lt;div className=&quot;tabs&quot;&gt;
+            &lt;a
+              className={`tab ${filter === &quot;all&quot; ? &quot;tab-active&quot; : &quot;&quot;}`}
+              onClick={() =&gt; setFilter(&quot;all&quot;)}
+            &gt;
+              All
+            &lt;/a&gt;
+            &lt;a
+              className={`tab ${filter === &quot;active&quot; ? &quot;tab-active&quot; : &quot;&quot;}`}
+              onClick={() =&gt; setFilter(&quot;active&quot;)}
+            &gt;
+              Active
+            &lt;/a&gt;
+            &lt;a
+              className={`tab ${filter === &quot;completed&quot; ? &quot;tab-active&quot; : &quot;&quot;}`}
+              onClick={() =&gt; setFilter(&quot;completed&quot;)}
+            &gt;
+              Completed
+            &lt;/a&gt;
+          &lt;/div&gt;
+          {filter === &quot;completed&quot; &amp;&amp; filteredTodos.length ? (
+            &lt;button
+              className=&quot;absolute right-2 text-sm&quot;
+              onClick={() =&gt; {
+                handleClearCompleted();
+              }}
+            &gt;
+              clear completed
+            &lt;/button&gt;
+          ) : null}
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;
+</textarea><pre id="annotations" style="display:none">[]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Sat, 01 Apr 2023 03:28:18 GMT</p>
+    </body>
+  </html>
+  
